@@ -163,7 +163,8 @@ class prospectorPlotter():
                        markerfacecolor='none', markeredgecolor='slateblue',
                        markeredgewidth=3)
 
-        ax_main.errorbar(wphot[self.obs['phot_mask']], self.obs['maggies'][self.obs['phot_mask']], yerr=self.obs['maggies_unc'][self.obs['phot_mask']],
+        ax_main.errorbar(wphot[self.obs['phot_mask']], self.obs['maggies'][self.obs['phot_mask']], 
+        yerr=self.obs['maggies_unc'][self.obs['phot_mask']],
                        label='Observed photometry',
                        marker='o', markersize=10, alpha=0.8, ls='', lw=3,
                        ecolor='tomato', markerfacecolor='none', markeredgecolor='tomato',
@@ -171,8 +172,11 @@ class prospectorPlotter():
              
         print(errsModelPhot.shape)
              
-        O, E, dO, dE = pphot[self.obs['phot_mask']], self.obs['maggies'][self.obs['phot_mask']], errsModelPhot[1][self.obs['phot_mask']]-errsModelPhot[0][self.obs['phot_mask']], self.obs['maggies_unc'][self.obs['phot_mask']]
-        chiSqPhot = (pphot[self.obs['phot_mask']] - self.obs['maggies'][self.obs['phot_mask']])**2 / self.obs['maggies'][self.obs['phot_mask']]
+        O, E, dO, dE = pphot[self.obs['phot_mask']], self.obs['maggies'][self.obs['phot_mask']], \
+                        errsModelPhot[1][self.obs['phot_mask']]-errsModelPhot[0][self.obs['phot_mask']], \
+                        self.obs['maggies_unc'][self.obs['phot_mask']]
+        chiSqPhot = (pphot[self.obs['phot_mask']] - self.obs['maggies'][self.obs['phot_mask']])**2 \
+                    / self.obs['maggies'][self.obs['phot_mask']]
         errChiSqPhot = np.sqrt( (((O-E)*2/E)*dO)**2 + (((-1*(2*(O-E)*E)-(O-E)**2)/E**2)*dE)**2 )
         ax_resid.errorbar(wphot[self.obs['phot_mask']], chiSqPhot, errChiSqPhot, marker='s', markersize=10, alpha=0.8, ls='', lw=3,\
                        mfc='black', capsize=3, markeredgecolor='black', ecolor='black', markeredgewidth=5)
